@@ -14,6 +14,21 @@ fis.match('{script,common,answer, scripts, script1,share,video, video1, video2,v
     useHash: true
 });
 
+fis.match('*.html:js', {
+    optimizer: fis.plugin('uglify-js'),
+    parser: fis.plugin('babel'),
+})
+
+fis.match('videoUrl.js', {
+    useHash: true
+});
+
+fis.match('/term-middle/js/**.js', {
+    optimizer: fis.plugin('uglify-js'),
+    parser: fis.plugin('babel'),
+    useHash: true
+});
+
 fis.match('*.css', {
     optimizer: fis.plugin('clean-css'),
     useHash: true
@@ -22,6 +37,11 @@ fis.match('*.css', {
 fis.match('::image', {
     useHash: true
 });
+
+fis.match('*.ico', {
+    useHash: false
+});
+
 
 //调试模式，不压缩js、css代码，方便定位问题
 fis.media('dev')
@@ -34,7 +54,7 @@ fis.media('dev')
             to: './output/'
         })]
     }).match('*.html', {
-        postprocessor: function(content, file) {
+        postprocessor: function (content, file) {
             content = content.replace(/{DOMAIN}/g, "");
             return content;
         }
@@ -45,7 +65,7 @@ fis.media('prod').match('**', {
     relative: true,
     // optimizer: null
 }).match('*.html', {
-    postprocessor: function(content, file) {
+    postprocessor: function (content, file) {
         content = content.replace(/{DOMAIN}/g, "/wx-spread-course");
         return content;
     }
@@ -56,7 +76,7 @@ fis.media('test').match('**', {
     // useHash: false,
     // optimizer: null
 }).match('*.html', {
-    postprocessor: function(content, file) {
+    postprocessor: function (content, file) {
         content = content.replace(/{DOMAIN}/g, "/wx-spread-course");
         return content;
     }
@@ -72,7 +92,7 @@ fis.media('localtest').match('**', {
         to: 'D:/Tomcat7.054/webapps/ROOT'
     })
 }).match('*.html', {
-    postprocessor: function(content, file) {
+    postprocessor: function (content, file) {
         content = content.replace(/{DOMAIN}/g, "");
         return content;
     }
