@@ -7,29 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>二维码</title>
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <link rel="stylesheet" href="./css/calculator.less" />
+    <link rel="stylesheet" href="./css/qrCode.less" />
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
     <script src="./js/jquery.qr.js"></script>
 </head>
 
 <body>
+    <div id="qrBox">
+        <input v-model="inputMessage">
+        <button @click="toBeTableQR">开始生成</button>
         <div id="qrcode"></div>
-        <script>
-        $(function(){
-            // $('#qrcode').qrcode("http://www.cnblogs.com/xiyangbaixue");
-            // 更详细的配置
-            $('#qrcode').qrcode({
-                // text: 'http://www.yating.online', // 要编码的字符串
-                text: '中文', // 要编码的字符串
-                width: 500, // 定义宽度
-                height: 500, // 定义高度
-                // correctLevel:9,
-                background: "transparent", // 背景色
-                foreground: "blue", // 前景色
-            });
-        })
-        </script>
+        <canvas id="canvasQR" width="400" height="400"></canvas>
+    </div>
+        <script src="./js/qrCode.js"></script>
 </body>
 
 </html>
