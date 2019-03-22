@@ -25,10 +25,10 @@ var qrBox = new Vue({
                         // console.log(i,j,"上色了，且没有被记录")
                         if(this.array[i][j][0] == 1&&this.array[i+1][j][0] == 1&&this.array[i+2][j][0] == 1&&this.array[i+3][j][0] == 1){
                             // 现在col4已经被记录了
-                            this.array[i][j][1] == 1
-                            this.array[i+1][j][1] == 1
-                            this.array[i+2][j][1] == 1
-                            this.array[i+3][j][1] == 1
+                            this.array[i][j][1] = 1
+                            this.array[i+1][j][1] = 1
+                            this.array[i+2][j][1] = 1
+                            this.array[i+3][j][1] = 1
                             this.array4[col4]=[];
                             this.array4[col4][0]=i;
                             this.array4[col4][1]=j
@@ -57,9 +57,9 @@ var qrBox = new Vue({
                         // console.log(i,j,"上色了，且没有被记录")
                         if(this.array[i][j][0] == 1&&this.array[i+1][j][0] == 1&&this.array[i+2][j][0] == 1){
                             // 现在col3已经被记录了
-                            this.array[i][j][1] == 1
-                            this.array[i+1][j][1] == 1
-                            this.array[i+2][j][1] == 1
+                            this.array[i][j][1] = 1
+                            this.array[i+1][j][1] = 1
+                            this.array[i+2][j][1] = 1
                             this.array3[col3]=[];
                             this.array3[col3][0]=i;
                             this.array3[col3][1]=j
@@ -74,6 +74,7 @@ var qrBox = new Vue({
             }
             console.log(this.array3)
             // this.countCol3();
+            console.log(this.array[8][4][1]);
         },
         // 统计竖下来的方块21-22的个数
         countCol2() {},
