@@ -25,7 +25,7 @@ var qrBox = new Vue({
             //浏览器加载图片完毕后再绘制图片
             this.imgOne.onload = () => {
                 //以Canvas画布上的坐标(10,10)为起始点，绘制图像 //图像的宽度和高度分别缩放到350px和100px
-                this.canvasBg.drawImage(this.imgOne, 10, 10, 350, 100);
+                this.canvasBg.drawImage(this.imgOne, 10, 10, 40, 40);
             };
         },
         painTian(){
