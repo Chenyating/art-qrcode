@@ -5,81 +5,364 @@ var qrBox = new Vue({
         inputMessage: "0",
         arrayLength: null,
         array: null,
-        array4:null,
-        array3:null,
-        array21:null,
-        array22:null,
-        array1:null,
+        arrayRow4: null, //行4
+        arrayCol4: null, //竖4
+        arrayRow3: null, //行3
+        arrayCol3: null, //竖3
+        arrayRever7: null, //反7
+        arrayPositive7: null, //正7
+        arrayTian: null,
+        arrayRow2: null, //横2
+        arrayCol2: null, //竖2
+        array1: null, //单1
+        imgOne: new Image()
     },
     methods: {
-        // 统计竖下来的方块4的个数
-        countCol4() {
-            var col4=0;
-            this.array4=[];
-            for (let i = 0; i < this.arrayLength-4; i++) {
-                for (let j = 0; j < this.arrayLength; j++) {
-                    //   遍历每一个数组里的值,如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+        // 绘制艺术二维码
+        painQR() {
+            //指定图片的URL
+            this.imgOne.src = "../img/qr/tian.png";
+            //浏览器加载图片完毕后再绘制图片
+            this.imgOne.onload = () => {
+                //以Canvas画布上的坐标(10,10)为起始点，绘制图像 //图像的宽度和高度分别缩放到350px和100px
+                this.canvasBg.drawImage(this.imgOne, 10, 10, 350, 100);
+            };
+        },
+        painTian(){
+            if(this.arrayTian.length>0){
+                for (let i = 0; i < this.arrayTian.length; i++) {
+                    this.canvasBg.drawImage(this.imgOne, this.arrayTian[i][0]*10, this.arrayTian[i][1]*10, 40, 40);
+                }
+            }
+            else{
+                return;
+            }
+        },
+        // 统计田
+        countTian() {
+            var tian = 0;
+            this.arrayTian = [];
+            for (let i = 0; i < this.arrayLength - 2; i++) {
+                //   遍历每一个数组里的值
+                for (let j = 0; j < this.arrayLength - 2; j++) {
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
                     if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
                         continue;
                     } else {
-                        // console.log(i,j,"上色了，且没有被记录")
-                        if(this.array[i][j][0] == 1&&this.array[i+1][j][0] == 1&&this.array[i+2][j][0] == 1&&this.array[i+3][j][0] == 1){
-                            // 现在col4已经被记录了
+                        if (
+                            this.array[i + 1][j][0] == 1 &
+                            this.array[i + 1][j][1] == 0 &&
+                            this.array[i][j + 1][0] == 1 &&
+                            this.array[i][j + 1][1] == 0 &&
+                            this.array[i + 1][j + 1][0] == 1 &&
+                            this.array[i + 1][j + 1][1] == 0) {
+                            // 现在positive7已经被记录了；
                             this.array[i][j][1] = 1
-                            this.array[i+1][j][1] = 1
-                            this.array[i+2][j][1] = 1
-                            this.array[i+3][j][1] = 1
-                            this.array4[col4]=[];
-                            this.array4[col4][0]=i;
-                            this.array4[col4][1]=j
-                            col4=col4+1;
-                        }
-                        else{
+                            this.array[i + 1][j][1] = 1
+                            this.array[i][j + 1][1] = 1
+                            this.array[i + 1][j + 1][1] = 1
+                            // 把竖7的i，j记录进去；
+                            // 开始收收集7行的小方块数据；
+                            this.arrayTian[tian] = [];
+                            this.arrayTian[tian][0] = i;
+                            this.arrayTian[tian][1] = j
+                            tian = tian + 1;
+                        } else {
                             continue;
                         }
-                        // 开始收收集4行的小方块数据；
                     }
                 }
             }
-            console.log(this.array4)
-            this.countCol3();
+            // console.log("田", this.arrayTian);
         },
-        // 统计竖下来的方块3的个数
-        countCol3() {
-            var col3=0;
-            this.array3=[];
-            for (let i = 0; i < this.arrayLength-3; i++) {
+        // 统计横竖下来的方块4的个数
+        count4() {
+            var col4 = 0;
+            this.arrayCol4 = [];
+            var row4 = 0;
+            this.arrayRow4 = [];
+            for (let i = 0; i < this.arrayLength; i++) {
+                //   遍历每一个数组里的值
                 for (let j = 0; j < this.arrayLength; j++) {
-                    //   遍历每一个数组里的值,如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
                     if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
                         continue;
                     } else {
-                        // console.log(i,j,"上色了，且没有被记录")
-                        if(this.array[i][j][0] == 1&&this.array[i+1][j][0] == 1&&this.array[i+2][j][0] == 1){
-                            // 现在col3已经被记录了
-                            this.array[i][j][1] = 1
-                            this.array[i+1][j][1] = 1
-                            this.array[i+2][j][1] = 1
-                            this.array3[col3]=[];
-                            this.array3[col3][0]=i;
-                            this.array3[col3][1]=j
-                            col3=col3+1;
+                        // 随机记录行竖4
+                        if (parseInt(Math.random() * 2) == 1) {
+                            // 判断是否超出；
+                            if (i >= this.arrayLength - 4) {
+                                continue;
+                            } else {
+                                // 否则判断他是否是竖4。
+                                if (this.array[i + 1][j][0] == 1 &&
+                                    this.array[i + 1][j][1] == 0 &&
+                                    this.array[i + 2][j][0] == 1 &&
+                                    this.array[i + 2][j][1] == 0 &&
+                                    this.array[i + 3][j][0] == 1 &&
+                                    this.array[i + 3][j][1] == 0) {
+                                    // 现在col4已经被记录了；
+                                    this.array[i][j][1] = 1
+                                    this.array[i + 1][j][1] = 1
+                                    this.array[i + 2][j][1] = 1
+                                    this.array[i + 3][j][1] = 1
+                                    // 把竖4的i，j记录进去；
+                                    // 开始收收集4行的小方块数据；
+                                    this.arrayCol4[col4] = [];
+                                    this.arrayCol4[col4][0] = i;
+                                    this.arrayCol4[col4][1] = j
+                                    col4 = col4 + 1;
+                                } else {
+                                    continue;
+                                }
+                            }
+                        } else {
+                            if (j >= this.arrayLength - 4) {
+                                continue;
+                            } else {
+
+                                if (this.array[i][j + 1][0] == 1 &&
+                                    this.array[i][j + 1][1] == 0 &&
+                                    this.array[i][j + 2][0] == 1 &&
+                                    this.array[i][j + 2][1] == 0 &&
+                                    this.array[i][j + 3][0] == 1 &&
+                                    this.array[i][j + 3][1] == 0) {
+                                    // 现在row4已经被记录了；
+                                    this.array[i][j][1] = 1
+                                    this.array[i][j + 1][1] = 1
+                                    this.array[i][j + 2][1] = 1
+                                    this.array[i][j + 3][1] = 1
+                                    // 把横4的i，j记录进去；
+                                    this.arrayRow4[row4] = [];
+                                    this.arrayRow4[row4][0] = i;
+                                    this.arrayRow4[row4][1] = j
+                                    row4 = row4 + 1;
+                                } else {
+                                    continue;
+                                }
+                                // 开始收收集4行的小方块数据；
+                            }
+                            // 否则判断他是否是横4。
                         }
-                        else{
-                            continue;
-                        }
-                        // 开始收收集4行的小方块数据；
                     }
                 }
             }
-            console.log(this.array3)
-            // this.countCol3();
-            console.log(this.array[8][4][1]);
+            // console.log("竖4", this.arrayCol4);
+            // console.log("横4", this.arrayRow4);
         },
-        // 统计竖下来的方块21-22的个数
-        countCol2() {},
-        // 统计竖下来的方块1的个数
-        countCol1() {},
+        // 统计横竖下来的方块3的个数
+        count3() {
+            var col3 = 0;
+            this.arrayCol3 = [];
+            var row3 = 0;
+            this.arrayRow3 = [];
+            for (let i = 0; i < this.arrayLength; i++) {
+                //   遍历每一个数组里的值
+                for (let j = 0; j < this.arrayLength; j++) {
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                        continue;
+                    } else {
+                        // 随机记录行竖3
+                        if (parseInt(Math.random() * 2) == 1) {
+                            // 判断是否超出；
+                            if (i >= this.arrayLength - 3) {
+                                continue;
+                            } else {
+                                // 否则判断他是否是竖3。
+                                if (this.array[i + 1][j][0] == 1 &&
+                                    this.array[i + 1][j][1] == 0 &&
+                                    this.array[i + 2][j][0] == 1 &&
+                                    this.array[i + 2][j][1] == 0) {
+                                    // 现在col3已经被记录了；
+                                    this.array[i][j][1] = 1
+                                    this.array[i + 1][j][1] = 1
+                                    this.array[i + 2][j][1] = 1
+                                    // 把竖3的i，j记录进去；
+                                    // 开始收收集3行的小方块数据；
+                                    this.arrayCol3[col3] = [];
+                                    this.arrayCol3[col3][0] = i;
+                                    this.arrayCol3[col3][1] = j
+                                    col3 = col3 + 1;
+                                } else {
+                                    continue;
+                                }
+                            }
+                        } else {
+                            if (j >= this.arrayLength - 3) {
+                                continue;
+                            } else {
+
+                                if (this.array[i][j + 1][0] == 1 &&
+                                    this.array[i][j + 1][1] == 0 &&
+                                    this.array[i][j + 2][0] == 1 &&
+                                    this.array[i][j + 2][1] == 0) {
+                                    // 现在row3已经被记录了；
+                                    this.array[i][j][1] = 1
+                                    this.array[i][j + 1][1] = 1
+                                    this.array[i][j + 2][1] = 1
+                                    // 把横3的i，j记录进去；
+                                    this.arrayRow3[row3] = [];
+                                    this.arrayRow3[row3][0] = i;
+                                    this.arrayRow3[row3][1] = j
+                                    row3 = row3 + 1;
+                                } else {
+                                    continue;
+                                }
+                                // 开始收收集3行的小方块数据；
+                            }
+                            // 否则判断他是否是横3。
+                        }
+                    }
+                }
+            }
+            // console.log("横3", this.arrayCol3);
+            // console.log("竖3", this.arrayRow3);
+        },
+        // 统计方块反7正7的个数
+        count7() {
+            var positive7 = 0;
+            this.arrayPositive7 = [];
+            var reverse7 = 0;
+            this.arrayRever7 = [];
+            for (let i = 0; i < this.arrayLength - 2; i++) {
+                //   遍历每一个数组里的值
+                for (let j = 0; j < this.arrayLength - 2; j++) {
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                        continue;
+                    } else {
+                        // 随机记录正反7
+                        if (parseInt(Math.random() * 2) == 1) {
+                            // 判断是否超出；
+                            // 否则判断他是否是正7。
+                            if (this.array[i + 1][j][0] == 0 &&
+                                this.array[i][j + 1][0] == 1 &&
+                                this.array[i][j + 1][1] == 0 &&
+                                this.array[i + 1][j + 1][0] == 1 &&
+                                this.array[i + 1][j + 1][1] == 0) {
+                                // 现在positive7已经被记录了；
+                                this.array[i][j][1] = 1
+                                this.array[i][j + 1][1] = 1
+                                this.array[i + 1][j + 1][1] = 1
+                                // 把竖7的i，j记录进去；
+                                // 开始收收集7行的小方块数据；
+                                this.arrayPositive7[positive7] = [];
+                                this.arrayPositive7[positive7][0] = i;
+                                this.arrayPositive7[positive7][1] = j
+                                positive7 = positive7 + 1;
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            // 反7
+                            if (this.array[i + 1][j + 1][0] == 0 &&
+                                this.array[i][j + 1][0] == 1 &&
+                                this.array[i][j + 1][1] == 0 &&
+                                this.array[i + 1][j][0] == 1 &&
+                                this.array[i + 1][j][1] == 0) {
+                                // 现在positive7已经被记录了；
+                                this.array[i][j][1] = 1
+                                this.array[i][j + 1][1] = 1
+                                this.array[i + 1][j][1] = 1
+                                // 把竖7的i，j记录进去；
+                                // 开始收收集7行的小方块数据；
+                                this.arrayRever7[reverse7] = [];
+                                this.arrayRever7[reverse7][0] = i;
+                                this.arrayRever7[reverse7][1] = j
+                                reverse7 = reverse7 + 1;
+                            } else {
+                                continue;
+                            }
+                            // 开始收收集7行的小方块数据；
+                            // 否则判断他是否是横7。
+                        }
+                    }
+                }
+            }
+            // console.log("正7", this.arrayPositive7);
+            // console.log("反7", this.arrayRever7);
+        },
+        // 统计竖下来的方块2的个数
+        count2() {
+            var col2 = 0;
+            this.arrayCol2 = [];
+            var row2 = 0;
+            this.arrayRow2 = [];
+            for (let i = 0; i < this.arrayLength - 2; i++) {
+                //   遍历每一个数组里的值
+                for (let j = 0; j < this.arrayLength - 2; j++) {
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                        continue;
+                    } else {
+                        // 随机记录横竖2
+                        if (parseInt(Math.random() * 2) == 1) {
+                            // 判断是否超出；
+                            // 否则判断他是否是竖2。
+                            if (
+                                this.array[i + 1][j][0] == 1 &&
+                                this.array[i + 1][j][1] == 0) {
+                                // 现在横2已经被记录了；
+                                this.array[i][j][1] = 1
+                                this.array[i + 1][j][1] = 1
+                                // 把横2的i，j记录进去；
+                                // 开始收收集7行的小方块数据；
+                                this.arrayRow2[row2] = [];
+                                this.arrayRow2[row2][0] = i;
+                                this.arrayRow2[row2][1] = j
+                                row2 = row2 + 1;
+                            } else {
+                                continue;
+                            }
+                            // 开始收收集7行的小方块数据；
+                            // 否则判断他是否是横7。
+                        } else {
+                            // 横2
+                            if (this.array[i][j + 1][0] == 1 &&
+                                this.array[i][j + 1][1] == 0) {
+                                // 现在col2已经被记录了；
+                                this.array[i][j][1] = 1
+                                this.array[i][j + 1][1] = 1
+                                // 把竖2的i，j记录进去；
+                                // 开始收收集2行的小方块数据；
+                                this.arrayCol2[col2] = [];
+                                this.arrayCol2[col2][0] = i;
+                                this.arrayCol2[col2][1] = j
+                                col2 = col2 + 1;
+                            } else {
+                                continue;
+                            }
+
+                        }
+                    }
+                }
+            }
+            // console.log("竖2", this.arrayCol2);
+            // console.log("横2", this.arrayRow2);
+        },
+        // 统计剩余1单个方块
+        count1() {
+            var col1 = 0;
+            this.array1 = [];
+            for (let i = 0; i < this.arrayLength - 2; i++) {
+                //   遍历每一个数组里的值
+                for (let j = 0; j < this.arrayLength - 2; j++) {
+                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
+                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                        continue;
+                    } else {
+                        this.array[i][j][1] = 1
+                        // 剩下的按单个记录保存；
+                        this.array1[col1] = [];
+                        this.array1[col1][0] = i;
+                        this.array1[col1][1] = j
+                        col1 = col1 + 1;
+                    }
+                }
+            }
+            // console.log("单个", this.array1);
+        },
         //计算二维码的一个小黑块的宽度
         countWidth() {
             console.log("开始回调")
@@ -108,10 +391,14 @@ var qrBox = new Vue({
                     }
                 }
             }
-            console.log(this.array);
-            this.countCol4();
+            // console.log(this.array);
+            this.countTian();
+            this.count4();
+            this.count3();
+            this.count7();
+            this.count2();
+            this.count1();
         },
-
         // 清空原来的二维码，把内容二维码转为table格式；
         toBeTableQR() {
             var that = this;
@@ -144,5 +431,6 @@ var qrBox = new Vue({
         // 获取canvas画布这个对象
         var c1 = document.getElementById("canvasQR");
         this.canvasBg = c1.getContext("2d");
+        this.painQR();
     }
 });
