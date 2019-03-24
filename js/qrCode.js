@@ -1,79 +1,234 @@
 var qrBox = new Vue({
     el: "#qrBox",
     data: {
+        qrLength: 400,
+        unit: null,
         canvasBg: null,
         inputMessage: "0",
         arrayLength: null,
         array: null,
-        arrayRow4: null, //行4
-        arrayCol4: null, //竖4
-        arrayRow3: null, //行3
-        arrayCol3: null, //竖3
+        array4: {
+            row: null,
+            col: null
+        },
+        array3: {
+            row: null,
+            col: null
+        },
+        array2: {
+            row: null,
+            col: null
+        },
         arrayRever7: null, //反7
         arrayPositive7: null, //正7
-        arrayTian: null,
-        arrayRow2: null, //横2
-        arrayCol2: null, //竖2
+        arrayTian: null,//田
         array1: null, //单1
-        imgOne: new Image()
+    },
+    mounted() {
+        this.toBeTableQR();
+        // 获取canvas画布这个对象
+        var c1 = document.getElementById("canvasQR");
+        this.canvasBg = c1.getContext("2d");
+        this.canvasBg.fillStyle = "transparent";
     },
     methods: {
+        // 返回图片src
+        imgSrc(num, type) {
+            if (num == 4 && type == "row") {
+                return "../img/qr/row4.png";
+            }
+            if (num == 4 && type == "col") {
+                return "../img/qr/col4.png";
+            }
+            if (num == 3 && type == "row") {
+                return "../img/qr/row3.png";
+            }
+            if (num == 3 && type == "col") {
+                return "../img/qr/col3.png";
+            }
+            if (num == 7 && type == "re") {
+                return "../img/qr/re7.png";
+            }
+            if (num == 7 && type == "po") {
+                return "../img/qr/po7.png";
+            }
+            if (num == 22 && type == "tian") {
+                return "../img/qr/tian.png";
+            }
+            if (num == 2 && type == "row") {
+                return "../img/qr/row2.png";
+            }
+            if (num == 2 && type == "col") {
+                return "../img/qr/col2.png";
+            }
+            if (num == 1 && type == "one") {
+                return "../img/qr/one.png";
+            }
+        },
         // 绘制艺术二维码
-        painQR() {
-            //指定图片的URL
-            this.imgOne.src = "../img/qr/tian.png";
+        pain(arrayName, width, height, num, type) {
+            var img = new Image();
+            img.src = this.imgSrc(num, type);
             //浏览器加载图片完毕后再绘制图片
-            this.imgOne.onload = () => {
+            img.onload = () => {
                 //以Canvas画布上的坐标(10,10)为起始点，绘制图像 //图像的宽度和高度分别缩放到350px和100px
-                this.canvasBg.drawImage(this.imgOne, 10, 10, 40, 40);
+                if (arrayName.length != 0) {
+                    for (let i = 0; i < arrayName.length; i++) {
+                        this.canvasBg.drawImage(img, arrayName[i][0] * this.unit, arrayName[i][1] * this.unit, width * this.unit, height * this.unit);
+                    }
+                } else {
+                    return;
+                }
             };
         },
-        painTian(){
-            if(this.arrayTian.length>0){
-                for (let i = 0; i < this.arrayTian.length; i++) {
-                    this.canvasBg.drawImage(this.imgOne, this.arrayTian[i][0]*10, this.arrayTian[i][1]*10, 40, 40);
+        // 绘制艺术二维码
+        painEye() {
+            var img = new Image();
+            img.src = "../img/qr/eye.png";
+            //浏览器加载图片完毕后再绘制图片
+            img.onload = () => {
+                this.canvasBg.drawImage(img, 0 * this.unit, 0* this.unit, 7 * this.unit, 7 * this.unit);
+                this.canvasBg.drawImage(img, (this.arrayLength-7) * this.unit, 0* this.unit, 7 * this.unit, 7 * this.unit);
+                this.canvasBg.drawImage(img, 0 * this.unit, (this.arrayLength-7) * this.unit, 7 * this.unit, 7 * this.unit);
+            };
+        },
+        // 绘制艺术二维码
+        pain(arrayName, width, height, num, type) {
+            console.log(arrayName.prototype)
+            var img = new Image();
+            img.src = this.imgSrc(num, type);
+            //浏览器加载图片完毕后再绘制图片
+            img.onload = () => {
+                if (arrayName.length != 0) {
+                    for (let i = 0; i < arrayName.length; i++) {
+                        this.canvasBg.drawImage(img, arrayName[i][0] * this.unit, arrayName[i][1] * this.unit, width * this.unit, height * this.unit);
+                    }
+                } else {
+                    return;
                 }
+            };
+        },
+        /*
+         * 返回判断条件；当数量为4、3、2个方块的；
+         * 类型有：col和row；
+         * i,j此时遍历的条件；
+         */
+        condition(num, type, i, j) {
+            if (num == 4 && type == "row") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i][j + 1][0] == 1 &&
+                    this.array[i][j + 1][1] == 0 &&
+                    this.array[i][j + 2][0] == 1 &&
+                    this.array[i][j + 2][1] == 0 &&
+                    this.array[i][j + 3][0] == 1 &&
+                    this.array[i][j + 3][1] == 0)
             }
-            else{
-                return;
+            if (num == 4 && type == "col") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i + 1][j][0] == 1 &&
+                    this.array[i + 1][j][1] == 0 &&
+                    this.array[i + 2][j][0] == 1 &&
+                    this.array[i + 2][j][1] == 0 &&
+                    this.array[i + 3][j][0] == 1 &&
+                    this.array[i + 3][j][1] == 0)
+            }
+            if (num == 3 && type == "row") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i][j + 1][0] == 1 &&
+                    this.array[i][j + 1][1] == 0 &&
+                    this.array[i][j + 2][0] == 1 &&
+                    this.array[i][j + 2][1] == 0)
+            }
+            if (num == 3 && type == "col") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i + 1][j][0] == 1 &&
+                    this.array[i + 1][j][1] == 0 &&
+                    this.array[i + 2][j][0] == 1 &&
+                    this.array[i + 2][j][1] == 0)
+            }
+            if (num == 2 && type == "row") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i][j + 1][0] == 1 &&
+                    this.array[i][j + 1][1] == 0)
+            }
+            if (num == 2 && type == "col") {
+                return (this.array[i][j][0] == 1 &&
+                    this.array[i][j][1] == 0 &&
+                    this.array[i + 1][j][0] == 1 &&
+                    this.array[i + 1][j][1] == 0)
             }
         },
-        // 统计田
-        countTian() {
-            var tian = 0;
-            this.arrayTian = [];
-            for (let i = 0; i < this.arrayLength - 2; i++) {
+        /*
+         *返回判断条件；当数量为4、3、2个方块的；
+         * 类型有：col和row；
+         * i,j此时遍历的条件；
+         */
+        countType(arrayType, num) {
+            var col = 0;
+            this[arrayType].col = [];
+            var row = 0;
+            this[arrayType].row = [];
+            for (let i = 0; i < this.arrayLength; i++) {
                 //   遍历每一个数组里的值
-                for (let j = 0; j < this.arrayLength - 2; j++) {
+                for (let j = 0; j < this.arrayLength; j++) {
                     // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                    if (this.array[i][j][1] == 1) {
                         continue;
                     } else {
-                        if (
-                            this.array[i + 1][j][0] == 1 &
-                            this.array[i + 1][j][1] == 0 &&
-                            this.array[i][j + 1][0] == 1 &&
-                            this.array[i][j + 1][1] == 0 &&
-                            this.array[i + 1][j + 1][0] == 1 &&
-                            this.array[i + 1][j + 1][1] == 0) {
-                            // 现在positive7已经被记录了；
-                            this.array[i][j][1] = 1
-                            this.array[i + 1][j][1] = 1
-                            this.array[i][j + 1][1] = 1
-                            this.array[i + 1][j + 1][1] = 1
-                            // 把竖7的i，j记录进去；
-                            // 开始收收集7行的小方块数据；
-                            this.arrayTian[tian] = [];
-                            this.arrayTian[tian][0] = i;
-                            this.arrayTian[tian][1] = j
-                            tian = tian + 1;
+                        // 随机记录行竖4
+                        if (parseInt(Math.random() * 2) == 1) {
+                            // 判断是否超出；
+                            if (i >= this.arrayLength - num) {
+                                continue;
+                            } else {
+                                // 否则判断他是否是竖4。
+                                if (this.condition(num, "col", i, j)) {
+                                    // 现在col4已经被记录了；
+                                    for (k = 0; k < num; k++) {
+                                        this.array[i + k][j][1] = 1
+                                    }
+                                    // 把竖4的i，j记录进去；
+                                    // 开始收收集4行的小方块数据；
+                                    this[arrayType].col[col] = [];
+                                    this[arrayType].col[col][0] = j;
+                                    this[arrayType].col[col][1] = i
+                                    col = col + 1;
+                                } else {
+                                    continue;
+                                }
+                            }
                         } else {
-                            continue;
+                            if (j >= this.arrayLength - num) {
+                                continue;
+                            } else {
+
+                                if (this.condition(num, "row", i, j)) {
+                                    // 现在row4已经被记录了；
+                                    for (k = 0; k < num; k++) {
+                                        this.array[i][j + k][1] = 1
+                                    }
+                                    // 把横4的i，j记录进去；
+                                    this[arrayType].row[row] = [];
+                                    this[arrayType].row[row][0] = j;
+                                    this[arrayType].row[row][1] = i
+                                    row = row + 1;
+                                } else {
+                                    continue;
+                                }
+                            }
                         }
                     }
                 }
             }
-            // console.log("田", this.arrayTian);
+            this.pain(this[arrayType].row, num, 1, num, "row");
+            this.pain(this[arrayType].col, 1, num, num, "col");
+            console.log("col" + num, this[arrayType].col);
+            console.log("col" + num, this[arrayType].row);
         },
         // 统计横竖下来的方块4的个数
         count4() {
@@ -85,7 +240,7 @@ var qrBox = new Vue({
                 //   遍历每一个数组里的值
                 for (let j = 0; j < this.arrayLength; j++) {
                     // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                    if (this.array[i][j][1] == 1) {
                         continue;
                     } else {
                         // 随机记录行竖4
@@ -95,7 +250,9 @@ var qrBox = new Vue({
                                 continue;
                             } else {
                                 // 否则判断他是否是竖4。
-                                if (this.array[i + 1][j][0] == 1 &&
+                                if (this.array[i][j][0] == 1 &&
+                                    this.array[i][j][1] == 0 &&
+                                    this.array[i + 1][j][0] == 1 &&
                                     this.array[i + 1][j][1] == 0 &&
                                     this.array[i + 2][j][0] == 1 &&
                                     this.array[i + 2][j][1] == 0 &&
@@ -109,8 +266,8 @@ var qrBox = new Vue({
                                     // 把竖4的i，j记录进去；
                                     // 开始收收集4行的小方块数据；
                                     this.arrayCol4[col4] = [];
-                                    this.arrayCol4[col4][0] = i;
-                                    this.arrayCol4[col4][1] = j
+                                    this.arrayCol4[col4][0] = j;
+                                    this.arrayCol4[col4][1] = i
                                     col4 = col4 + 1;
                                 } else {
                                     continue;
@@ -121,7 +278,9 @@ var qrBox = new Vue({
                                 continue;
                             } else {
 
-                                if (this.array[i][j + 1][0] == 1 &&
+                                if (this.array[i][j][0] == 1 &&
+                                    this.array[i][j][1] == 0 &&
+                                    this.array[i][j + 1][0] == 1 &&
                                     this.array[i][j + 1][1] == 0 &&
                                     this.array[i][j + 2][0] == 1 &&
                                     this.array[i][j + 2][1] == 0 &&
@@ -134,8 +293,8 @@ var qrBox = new Vue({
                                     this.array[i][j + 3][1] = 1
                                     // 把横4的i，j记录进去；
                                     this.arrayRow4[row4] = [];
-                                    this.arrayRow4[row4][0] = i;
-                                    this.arrayRow4[row4][1] = j
+                                    this.arrayRow4[row4][0] = j;
+                                    this.arrayRow4[row4][1] = i
                                     row4 = row4 + 1;
                                 } else {
                                     continue;
@@ -147,77 +306,47 @@ var qrBox = new Vue({
                     }
                 }
             }
-            // console.log("竖4", this.arrayCol4);
-            // console.log("横4", this.arrayRow4);
+            this.pain('arrayCol4', 1, 4);
+            this.pain('arrayRow4', 4, 1);
         },
-        // 统计横竖下来的方块3的个数
-        count3() {
-            var col3 = 0;
-            this.arrayCol3 = [];
-            var row3 = 0;
-            this.arrayRow3 = [];
-            for (let i = 0; i < this.arrayLength; i++) {
+        // 统计田
+        countTian() {
+            var tian = 0;
+            this.arrayTian = [];
+            for (let i = 0; i < this.arrayLength - 2; i++) {
                 //   遍历每一个数组里的值
-                for (let j = 0; j < this.arrayLength; j++) {
+                for (let j = 0; j < this.arrayLength - 2; j++) {
                     // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                    if (this.array[i][j][1] == 1) {
                         continue;
                     } else {
-                        // 随机记录行竖3
-                        if (parseInt(Math.random() * 2) == 1) {
-                            // 判断是否超出；
-                            if (i >= this.arrayLength - 3) {
-                                continue;
-                            } else {
-                                // 否则判断他是否是竖3。
-                                if (this.array[i + 1][j][0] == 1 &&
-                                    this.array[i + 1][j][1] == 0 &&
-                                    this.array[i + 2][j][0] == 1 &&
-                                    this.array[i + 2][j][1] == 0) {
-                                    // 现在col3已经被记录了；
-                                    this.array[i][j][1] = 1
-                                    this.array[i + 1][j][1] = 1
-                                    this.array[i + 2][j][1] = 1
-                                    // 把竖3的i，j记录进去；
-                                    // 开始收收集3行的小方块数据；
-                                    this.arrayCol3[col3] = [];
-                                    this.arrayCol3[col3][0] = i;
-                                    this.arrayCol3[col3][1] = j
-                                    col3 = col3 + 1;
-                                } else {
-                                    continue;
-                                }
-                            }
+                        if (
+                            this.array[i][j][0] == 1 &&
+                            this.array[i][j][1] == 0 &&
+                            this.array[i + 1][j][0] == 1 &&
+                            this.array[i + 1][j][1] == 0 &&
+                            this.array[i][j + 1][0] == 1 &&
+                            this.array[i][j + 1][1] == 0 &&
+                            this.array[i + 1][j + 1][0] == 1 &&
+                            this.array[i + 1][j + 1][1] == 0) {
+                            // 现在positive7已经被记录了；
+                            this.array[i][j][1] = 1
+                            this.array[i + 1][j][1] = 1
+                            this.array[i][j + 1][1] = 1
+                            this.array[i + 1][j + 1][1] = 1
+                            // 把竖7的i，j记录进去；
+                            // 开始收收集7行的小方块数据；
+                            this.arrayTian[tian] = [];
+                            this.arrayTian[tian][0] = j;
+                            this.arrayTian[tian][1] = i
+                            tian = tian + 1;
                         } else {
-                            if (j >= this.arrayLength - 3) {
-                                continue;
-                            } else {
-
-                                if (this.array[i][j + 1][0] == 1 &&
-                                    this.array[i][j + 1][1] == 0 &&
-                                    this.array[i][j + 2][0] == 1 &&
-                                    this.array[i][j + 2][1] == 0) {
-                                    // 现在row3已经被记录了；
-                                    this.array[i][j][1] = 1
-                                    this.array[i][j + 1][1] = 1
-                                    this.array[i][j + 2][1] = 1
-                                    // 把横3的i，j记录进去；
-                                    this.arrayRow3[row3] = [];
-                                    this.arrayRow3[row3][0] = i;
-                                    this.arrayRow3[row3][1] = j
-                                    row3 = row3 + 1;
-                                } else {
-                                    continue;
-                                }
-                                // 开始收收集3行的小方块数据；
-                            }
-                            // 否则判断他是否是横3。
+                            continue;
                         }
                     }
                 }
             }
-            // console.log("横3", this.arrayCol3);
-            // console.log("竖3", this.arrayRow3);
+            this.pain(this.arrayTian, 2, 2, 22, "tian");
         },
         // 统计方块反7正7的个数
         count7() {
@@ -229,14 +358,16 @@ var qrBox = new Vue({
                 //   遍历每一个数组里的值
                 for (let j = 0; j < this.arrayLength - 2; j++) {
                     // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                    if (this.array[i][j][1] == 1) {
                         continue;
                     } else {
                         // 随机记录正反7
                         if (parseInt(Math.random() * 2) == 1) {
                             // 判断是否超出；
                             // 否则判断他是否是正7。
-                            if (this.array[i + 1][j][0] == 0 &&
+                            if (this.array[i][j][0] == 1 &&
+                                this.array[i][j][1] == 0 &&
+                                this.array[i + 1][j][0] == 0 &&
                                 this.array[i][j + 1][0] == 1 &&
                                 this.array[i][j + 1][1] == 0 &&
                                 this.array[i + 1][j + 1][0] == 1 &&
@@ -248,15 +379,17 @@ var qrBox = new Vue({
                                 // 把竖7的i，j记录进去；
                                 // 开始收收集7行的小方块数据；
                                 this.arrayPositive7[positive7] = [];
-                                this.arrayPositive7[positive7][0] = i;
-                                this.arrayPositive7[positive7][1] = j
+                                this.arrayPositive7[positive7][0] = j;
+                                this.arrayPositive7[positive7][1] = i
                                 positive7 = positive7 + 1;
                             } else {
                                 continue;
                             }
                         } else {
                             // 反7
-                            if (this.array[i + 1][j + 1][0] == 0 &&
+                            if (this.array[i][j][0] == 1 &&
+                                this.array[i][j][1] == 0 &&
+                                this.array[i + 1][j + 1][0] == 0 &&
                                 this.array[i][j + 1][0] == 1 &&
                                 this.array[i][j + 1][1] == 0 &&
                                 this.array[i + 1][j][0] == 1 &&
@@ -268,8 +401,8 @@ var qrBox = new Vue({
                                 // 把竖7的i，j记录进去；
                                 // 开始收收集7行的小方块数据；
                                 this.arrayRever7[reverse7] = [];
-                                this.arrayRever7[reverse7][0] = i;
-                                this.arrayRever7[reverse7][1] = j
+                                this.arrayRever7[reverse7][0] = j;
+                                this.arrayRever7[reverse7][1] = i
                                 reverse7 = reverse7 + 1;
                             } else {
                                 continue;
@@ -280,88 +413,32 @@ var qrBox = new Vue({
                     }
                 }
             }
-            // console.log("正7", this.arrayPositive7);
-            // console.log("反7", this.arrayRever7);
-        },
-        // 统计竖下来的方块2的个数
-        count2() {
-            var col2 = 0;
-            this.arrayCol2 = [];
-            var row2 = 0;
-            this.arrayRow2 = [];
-            for (let i = 0; i < this.arrayLength - 2; i++) {
-                //   遍历每一个数组里的值
-                for (let j = 0; j < this.arrayLength - 2; j++) {
-                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
-                        continue;
-                    } else {
-                        // 随机记录横竖2
-                        if (parseInt(Math.random() * 2) == 1) {
-                            // 判断是否超出；
-                            // 否则判断他是否是竖2。
-                            if (
-                                this.array[i + 1][j][0] == 1 &&
-                                this.array[i + 1][j][1] == 0) {
-                                // 现在横2已经被记录了；
-                                this.array[i][j][1] = 1
-                                this.array[i + 1][j][1] = 1
-                                // 把横2的i，j记录进去；
-                                // 开始收收集7行的小方块数据；
-                                this.arrayRow2[row2] = [];
-                                this.arrayRow2[row2][0] = i;
-                                this.arrayRow2[row2][1] = j
-                                row2 = row2 + 1;
-                            } else {
-                                continue;
-                            }
-                            // 开始收收集7行的小方块数据；
-                            // 否则判断他是否是横7。
-                        } else {
-                            // 横2
-                            if (this.array[i][j + 1][0] == 1 &&
-                                this.array[i][j + 1][1] == 0) {
-                                // 现在col2已经被记录了；
-                                this.array[i][j][1] = 1
-                                this.array[i][j + 1][1] = 1
-                                // 把竖2的i，j记录进去；
-                                // 开始收收集2行的小方块数据；
-                                this.arrayCol2[col2] = [];
-                                this.arrayCol2[col2][0] = i;
-                                this.arrayCol2[col2][1] = j
-                                col2 = col2 + 1;
-                            } else {
-                                continue;
-                            }
-
-                        }
-                    }
-                }
-            }
-            // console.log("竖2", this.arrayCol2);
-            // console.log("横2", this.arrayRow2);
+            console.log(this.arrayPositive7);
+            console.log(this.arrayRever7);
+            this.pain(this.arrayRever7, 2, 2, 7, "re")
+            this.pain(this.arrayPositive7, 2, 2, 7, "po")
         },
         // 统计剩余1单个方块
         count1() {
             var col1 = 0;
             this.array1 = [];
-            for (let i = 0; i < this.arrayLength - 2; i++) {
+            for (let i = 0; i < this.arrayLength; i++) {
                 //   遍历每一个数组里的值
-                for (let j = 0; j < this.arrayLength - 2; j++) {
+                for (let j = 0; j < this.arrayLength; j++) {
                     // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][0] == 0 || this.array[i][j][1] == 1) {
+                    if (this.array[i][j][1] == 1) {
                         continue;
                     } else {
                         this.array[i][j][1] = 1
                         // 剩下的按单个记录保存；
                         this.array1[col1] = [];
-                        this.array1[col1][0] = i;
-                        this.array1[col1][1] = j
+                        this.array1[col1][0] = j;
+                        this.array1[col1][1] = i
                         col1 = col1 + 1;
                     }
                 }
             }
-            // console.log("单个", this.array1);
+            this.pain(this.array1, 1, 1, 1, "one");
         },
         //计算二维码的一个小黑块的宽度
         countWidth() {
@@ -380,24 +457,30 @@ var qrBox = new Vue({
                     // 遍历每个tr里的td，记录每个td的上色情况；
                     if (tr[i].children[j].style.backgroundColor == 'black') {
                         this.array[i][j][0] = 1;
+                        this.array[i][j][1] = 0;
+                        // this.array[i][j]= 1;
                     } else {
                         this.array[i][j][0] = 0;
+                        this.array[i][j][1] = 1;
+                        // this.array[i][j] = 0;
                     }
                     //    首先把3个大框框保存下来；
-                    if ((i < 7 && j < 7) || (i > this.arrayLength - 8 && j < 7) || (i < 7 && j > this.arrayLength - 8)) {
+                    if ((i < 7 && j < 7) || (i > this.arrayLength - 8 && j < 8) || (i < 8 && j > this.arrayLength - 8)) {
                         this.array[i][j][1] = 1;
-                    } else {
-                        this.array[i][j][1] = 0;
                     }
                 }
             }
-            // console.log(this.array);
+            this.unit = this.qrLength / this.arrayLength;
+
+            // 开始绘制
+            this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
+            this.countType("array4", 4)
+            this.countType("array3", 3)
             this.countTian();
-            this.count4();
-            this.count3();
             this.count7();
-            this.count2();
+            this.countType("array2", 2)
             this.count1();
+            this.painEye();
         },
         // 清空原来的二维码，把内容二维码转为table格式；
         toBeTableQR() {
@@ -406,8 +489,8 @@ var qrBox = new Vue({
             // 绘制二维码
             var qrcode = new QRCode(document.getElementById("qrcode"), {
                 text: this.inputMessage,
-                width: 300,
-                height: 300,
+                width: this.qrLength,
+                height: this.qrLength,
                 colorDark: "black",
                 colorLight: "transparent",
                 correctLevel: QRCode.CorrectLevel.H
@@ -425,12 +508,5 @@ var qrBox = new Vue({
                 this.toBeTableQR();
             }
         }
-    },
-    mounted() {
-        this.toBeTableQR();
-        // 获取canvas画布这个对象
-        var c1 = document.getElementById("canvasQR");
-        this.canvasBg = c1.getContext("2d");
-        this.painQR();
     }
 });

@@ -17,8 +17,10 @@
     <div id="qrBox">
         <input v-model="inputMessage">
         <button @click="toBeTableQR">开始生成</button>
-        <div id="qrcode"></div>
-        <canvas id="canvasQR" width="400" height="400"></canvas>
+        <div>
+            <div id="qrcode"></div>
+            <canvas id="canvasQR" width="400" height="400"></canvas>
+        </div>
     </div>
         <script src="./js/qrCode.js"></script>
 </body>
