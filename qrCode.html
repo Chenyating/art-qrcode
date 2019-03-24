@@ -15,11 +15,14 @@
 
 <body>
     <div id="qrBox">
-        <input v-model="inputMessage">
-        <button @click="toBeTableQR">开始生成</button>
-        <div>
-            <div id="qrcode"></div>
-            <canvas id="canvasQR" width="400" height="400"></canvas>
+        <input class="input" v-model="inputMessage">
+        <div class="button-box">
+            <div class="btn" @click="toBeTableQR">开始生成</div>
+            <div class="btn" @click="toBeTableQR">存储为图片</div>
+        </div>
+        <div id="qrcode" v-show="false"></div>
+        <div class="bg">
+            <canvas id="canvasQR" width="200" height="200"></canvas>
         </div>
     </div>
         <script src="./js/qrCode.js"></script>

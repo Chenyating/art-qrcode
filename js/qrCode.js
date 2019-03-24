@@ -1,7 +1,7 @@
 var qrBox = new Vue({
     el: "#qrBox",
     data: {
-        qrLength: 400,
+        qrLength: 180,
         unit: null,
         canvasBg: null,
         inputMessage: "0",
@@ -29,7 +29,7 @@ var qrBox = new Vue({
         // 获取canvas画布这个对象
         var c1 = document.getElementById("canvasQR");
         this.canvasBg = c1.getContext("2d");
-        this.canvasBg.fillStyle = "transparent";
+        this.canvasBg.fillStyle = "#fff799";
     },
     methods: {
         // 返回图片src
@@ -94,7 +94,6 @@ var qrBox = new Vue({
         },
         // 绘制艺术二维码
         pain(arrayName, width, height, num, type) {
-            console.log(arrayName.prototype)
             var img = new Image();
             img.src = this.imgSrc(num, type);
             //浏览器加载图片完毕后再绘制图片
@@ -227,8 +226,6 @@ var qrBox = new Vue({
             }
             this.pain(this[arrayType].row, num, 1, num, "row");
             this.pain(this[arrayType].col, 1, num, num, "col");
-            console.log("col" + num, this[arrayType].col);
-            console.log("col" + num, this[arrayType].row);
         },
         // 统计横竖下来的方块4的个数
         count4() {
@@ -442,6 +439,7 @@ var qrBox = new Vue({
         },
         //计算二维码的一个小黑块的宽度
         countWidth() {
+            this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
             console.log("开始回调")
             var tr = $("#tableQR tbody").find("tr");
             // 获取二维码一行的数量，从而得知是n*n个；设置一个n行n列的数组
@@ -475,9 +473,9 @@ var qrBox = new Vue({
             // 开始绘制
             this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
             this.countType("array4", 4)
-            this.countType("array3", 3)
             this.countTian();
             this.count7();
+            this.countType("array3", 3)
             this.countType("array2", 2)
             this.count1();
             this.painEye();
