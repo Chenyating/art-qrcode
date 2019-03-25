@@ -4,7 +4,7 @@ var qrBox = new Vue({
         qrLength: 180,
         unit: null,
         canvasBg: null,
-        inputMessage: "0",
+        inputMessage: "hello,I am Yating",
         arrayLength: null,
         array: null,
         array4: {
@@ -21,7 +21,7 @@ var qrBox = new Vue({
         },
         arrayRever7: null, //反7
         arrayPositive7: null, //正7
-        arrayTian: null,//田
+        arrayTian: null, //田
         array1: null, //单1
     },
     mounted() {
@@ -32,6 +32,29 @@ var qrBox = new Vue({
         this.canvasBg.fillStyle = "#fff799";
     },
     methods: {
+        toBeCanvas() {
+            var copyDom = $("#modalcontent");
+            var width = copyDom.offsetWidth; //dom宽
+            var height = copyDom.offsetHeight; //dom高
+            var scale = 2; //放大倍数
+            html2canvas(this.$refs['order'], {
+                dpi: window.devicePixelRatio * 2,
+                scale: scale,
+                width: width,
+                heigth: height,
+            }).then(canvas => {
+                const context = canvas.getContext('2d');
+                // 【重要】关闭抗锯齿 https://segmentfault.com/a/1190000011478657
+                context.mozImageSmoothingEnabled = false;
+                context.webkitImageSmoothingEnabled = false;
+                context.msImageSmoothingEnabled = false;
+                context.imageSmoothingEnabled = false;
+                var url = canvas.toDataURL();
+                var triggerDownload = $("<a>").attr("href", url).attr("download", "详情.png").appendTo("body");
+                triggerDownload[0].click();
+                triggerDownload.remove();
+            });
+        },
         // 返回图片src
         imgSrc(num, type) {
             if (num == 4 && type == "row") {
@@ -87,9 +110,9 @@ var qrBox = new Vue({
             img.src = "../img/qr/eye.png";
             //浏览器加载图片完毕后再绘制图片
             img.onload = () => {
-                this.canvasBg.drawImage(img, 0 * this.unit, 0* this.unit, 7 * this.unit, 7 * this.unit);
-                this.canvasBg.drawImage(img, (this.arrayLength-7) * this.unit, 0* this.unit, 7 * this.unit, 7 * this.unit);
-                this.canvasBg.drawImage(img, 0 * this.unit, (this.arrayLength-7) * this.unit, 7 * this.unit, 7 * this.unit);
+                this.canvasBg.drawImage(img, 0 * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
+                this.canvasBg.drawImage(img, (this.arrayLength - 7) * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
+                this.canvasBg.drawImage(img, 0 * this.unit, (this.arrayLength - 7) * this.unit, 7 * this.unit, 7 * this.unit);
             };
         },
         // 绘制艺术二维码
@@ -227,85 +250,6 @@ var qrBox = new Vue({
             this.pain(this[arrayType].row, num, 1, num, "row");
             this.pain(this[arrayType].col, 1, num, num, "col");
         },
-        // 统计横竖下来的方块4的个数
-        count4() {
-            var col4 = 0;
-            this.arrayCol4 = [];
-            var row4 = 0;
-            this.arrayRow4 = [];
-            for (let i = 0; i < this.arrayLength; i++) {
-                //   遍历每一个数组里的值
-                for (let j = 0; j < this.arrayLength; j++) {
-                    // 如果这个小方块没有上色或者这个小方块被记录过了，那么我们就不用管它了！
-                    if (this.array[i][j][1] == 1) {
-                        continue;
-                    } else {
-                        // 随机记录行竖4
-                        if (parseInt(Math.random() * 2) == 1) {
-                            // 判断是否超出；
-                            if (i >= this.arrayLength - 4) {
-                                continue;
-                            } else {
-                                // 否则判断他是否是竖4。
-                                if (this.array[i][j][0] == 1 &&
-                                    this.array[i][j][1] == 0 &&
-                                    this.array[i + 1][j][0] == 1 &&
-                                    this.array[i + 1][j][1] == 0 &&
-                                    this.array[i + 2][j][0] == 1 &&
-                                    this.array[i + 2][j][1] == 0 &&
-                                    this.array[i + 3][j][0] == 1 &&
-                                    this.array[i + 3][j][1] == 0) {
-                                    // 现在col4已经被记录了；
-                                    this.array[i][j][1] = 1
-                                    this.array[i + 1][j][1] = 1
-                                    this.array[i + 2][j][1] = 1
-                                    this.array[i + 3][j][1] = 1
-                                    // 把竖4的i，j记录进去；
-                                    // 开始收收集4行的小方块数据；
-                                    this.arrayCol4[col4] = [];
-                                    this.arrayCol4[col4][0] = j;
-                                    this.arrayCol4[col4][1] = i
-                                    col4 = col4 + 1;
-                                } else {
-                                    continue;
-                                }
-                            }
-                        } else {
-                            if (j >= this.arrayLength - 4) {
-                                continue;
-                            } else {
-
-                                if (this.array[i][j][0] == 1 &&
-                                    this.array[i][j][1] == 0 &&
-                                    this.array[i][j + 1][0] == 1 &&
-                                    this.array[i][j + 1][1] == 0 &&
-                                    this.array[i][j + 2][0] == 1 &&
-                                    this.array[i][j + 2][1] == 0 &&
-                                    this.array[i][j + 3][0] == 1 &&
-                                    this.array[i][j + 3][1] == 0) {
-                                    // 现在row4已经被记录了；
-                                    this.array[i][j][1] = 1
-                                    this.array[i][j + 1][1] = 1
-                                    this.array[i][j + 2][1] = 1
-                                    this.array[i][j + 3][1] = 1
-                                    // 把横4的i，j记录进去；
-                                    this.arrayRow4[row4] = [];
-                                    this.arrayRow4[row4][0] = j;
-                                    this.arrayRow4[row4][1] = i
-                                    row4 = row4 + 1;
-                                } else {
-                                    continue;
-                                }
-                                // 开始收收集4行的小方块数据；
-                            }
-                            // 否则判断他是否是横4。
-                        }
-                    }
-                }
-            }
-            this.pain('arrayCol4', 1, 4);
-            this.pain('arrayRow4', 4, 1);
-        },
         // 统计田
         countTian() {
             var tian = 0;
@@ -410,8 +354,8 @@ var qrBox = new Vue({
                     }
                 }
             }
-            console.log(this.arrayPositive7);
-            console.log(this.arrayRever7);
+            // console.log(this.arrayPositive7);
+            // console.log(this.arrayRever7);
             this.pain(this.arrayRever7, 2, 2, 7, "re")
             this.pain(this.arrayPositive7, 2, 2, 7, "po")
         },
@@ -440,7 +384,6 @@ var qrBox = new Vue({
         //计算二维码的一个小黑块的宽度
         countWidth() {
             this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
-            console.log("开始回调")
             var tr = $("#tableQR tbody").find("tr");
             // 获取二维码一行的数量，从而得知是n*n个；设置一个n行n列的数组
             this.arrayLength = tr.length;
@@ -471,7 +414,6 @@ var qrBox = new Vue({
             this.unit = this.qrLength / this.arrayLength;
 
             // 开始绘制
-            this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
             this.countType("array4", 4)
             this.countTian();
             this.count7();
@@ -500,7 +442,7 @@ var qrBox = new Vue({
         // 开始转为二维码的table
         toBeQR() {
             if (this.inputMessage == null) {
-                console.log("内容不能为空");
+                // console.log("内容不能为空");
                 return;
             } else {
                 this.toBeTableQR();
