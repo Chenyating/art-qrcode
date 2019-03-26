@@ -33,7 +33,7 @@ var qrBox = new Vue({
     },
     methods: {
         toBeCanvas() {
-            var copyDom = $("#modalcontent");
+            var copyDom = $("#canvasQR");
             var width = copyDom.offsetWidth; //dom宽
             var height = copyDom.offsetHeight; //dom高
             var scale = 2; //放大倍数
@@ -113,21 +113,6 @@ var qrBox = new Vue({
                 this.canvasBg.drawImage(img, 0 * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
                 this.canvasBg.drawImage(img, (this.arrayLength - 7) * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
                 this.canvasBg.drawImage(img, 0 * this.unit, (this.arrayLength - 7) * this.unit, 7 * this.unit, 7 * this.unit);
-            };
-        },
-        // 绘制艺术二维码
-        pain(arrayName, width, height, num, type) {
-            var img = new Image();
-            img.src = this.imgSrc(num, type);
-            //浏览器加载图片完毕后再绘制图片
-            img.onload = () => {
-                if (arrayName.length != 0) {
-                    for (let i = 0; i < arrayName.length; i++) {
-                        this.canvasBg.drawImage(img, arrayName[i][0] * this.unit, arrayName[i][1] * this.unit, width * this.unit, height * this.unit);
-                    }
-                } else {
-                    return;
-                }
             };
         },
         /*
@@ -383,7 +368,7 @@ var qrBox = new Vue({
         },
         //计算二维码的一个小黑块的宽度
         countWidth() {
-            this.canvasBg.clearRect(0, 0, this.qrLength, this.qrLength);
+            this.canvasBg.clearRect(0, 0,400, 400);
             var tr = $("#tableQR tbody").find("tr");
             // 获取二维码一行的数量，从而得知是n*n个；设置一个n行n列的数组
             this.arrayLength = tr.length;
@@ -411,7 +396,7 @@ var qrBox = new Vue({
                     }
                 }
             }
-            this.unit = this.qrLength / this.arrayLength;
+            this.unit = this.qrLength / this.arrayLength*2;
 
             // 开始绘制
             this.countType("array4", 4)
