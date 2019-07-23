@@ -1,17 +1,16 @@
 ﻿# ART-QR-Code
-小工具
-艺术二维码生成预览地址：http://www.yating.online/artQR.html
-#详细的解说地址：https://blog.csdn.net/lemisi/article/details/88831289
-
-
+## 详细的解说地址：https://blog.csdn.net/lemisi/article/details/88831289
 
 ## **生成艺术二维码的体验地址：http://www.yating.online/artQR.html**
 
 ## **喜欢的话，给个星吧~https://github.com/Chenyating/ART-QR-Code**
 
+
 体验图片：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326214809901.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 ​
+
 
 存在问题：
  - 1、目前仅适用于pc端；
@@ -23,7 +22,9 @@
 # 现在讲一下大概开发的过程：
 
 用的数组比较多；主要都是用来记录小黑块；
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326224756602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
+
 array记录小黑的行列上色；
 
 依次类推；
