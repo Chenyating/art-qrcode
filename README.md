@@ -64,6 +64,7 @@ Github 地址：[https://github.com/davidshimjs/qrcodejs](https://github.com/dav
 
 **因为最后导出的是以canvas的形式导出的二维码，很不方便我计算小黑快；
 所以我在源码上面，改成最后以table的形式导出二维码，从而更方便计算小黑块的数目**；
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019032622043296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
  - 在源码中找到这个方法：Drawing.prototype.draw = function (oQRCode)
