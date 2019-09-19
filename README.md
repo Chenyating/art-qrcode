@@ -1,7 +1,7 @@
 ﻿# ART-QR-Code
 ## 详细的解说地址：https://blog.csdn.net/lemisi/article/details/88831289
 
-## **生成艺术二维码的体验地址：http://www.yating.online/artQR.html**
+## **生成艺术二维码的体验地址：http://www.yating.online/tools/artQR**
 
 ## **喜欢的话，给个星吧~https://github.com/Chenyating/ART-QR-Code**
 
