@@ -1,10 +1,10 @@
 var qrBox = new Vue({
     el: "#qrBox",
-    data: {
+    data: { 
         qrLength: 180,
         unit: null,
         canvasBg: null,
-        inputMessage: "hello,I am Yating",
+        inputMessage: "1",
         arrayLength: null,
         array: null,
         array4: {
@@ -30,6 +30,7 @@ var qrBox = new Vue({
         var c1 = document.getElementById("canvasQR");
         this.canvasBg = c1.getContext("2d");
         this.canvasBg.fillStyle = "#fff799";
+        this.start();
     },
     methods: {
         toBeCanvas() {
@@ -58,34 +59,34 @@ var qrBox = new Vue({
         // 返回图片src
         imgSrc(num, type) {
             if (num == 4 && type == "row") {
-                return "../img/qr/row4.png";
+                return "../img/row4.png";
             }
             if (num == 4 && type == "col") {
-                return "../img/qr/col4.png";
+                return "../img/col4.png";
             }
             if (num == 3 && type == "row") {
-                return "../img/qr/row3.png";
+                return "../img/row3.png";
             }
             if (num == 3 && type == "col") {
-                return "../img/qr/col3.png";
+                return "../img/col3.png";
             }
             if (num == 7 && type == "re") {
-                return "../img/qr/re7.png";
+                return "../img/re7.png";
             }
             if (num == 7 && type == "po") {
-                return "../img/qr/po7.png";
+                return "../img/po7.png";
             }
             if (num == 22 && type == "tian") {
-                return "../img/qr/tian.png";
+                return "../img/tian.png";
             }
             if (num == 2 && type == "row") {
-                return "../img/qr/row2.png";
+                return "../img/row2.png";
             }
             if (num == 2 && type == "col") {
-                return "../img/qr/col2.png";
+                return "../img/col2.png";
             }
             if (num == 1 && type == "one") {
-                return "../img/qr/one.png";
+                return "../img/one.png";
             }
         },
         // 绘制艺术二维码
@@ -107,7 +108,7 @@ var qrBox = new Vue({
         // 绘制艺术二维码
         painEye() {
             var img = new Image();
-            img.src = "../img/qr/eye.png";
+            img.src = "../img/eye.png";
             //浏览器加载图片完毕后再绘制图片
             img.onload = () => {
                 this.canvasBg.drawImage(img, 0 * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
@@ -366,9 +367,9 @@ var qrBox = new Vue({
             }
             this.pain(this.array1, 1, 1, 1, "one");
         },
-        //计算二维码的一个小黑块的宽度
-        countWidth() {
-            this.canvasBg.clearRect(0, 0,400, 400);
+         //计算二维码的一个小黑块的宽度
+         countWidth() {
+            this.canvasBg.clearRect(0, 0, 400, 400);
             var tr = $("#tableQR tbody").find("tr");
             // 获取二维码一行的数量，从而得知是n*n个；设置一个n行n列的数组
             this.arrayLength = tr.length;
@@ -396,33 +397,43 @@ var qrBox = new Vue({
                     }
                 }
             }
-            this.unit = this.qrLength / this.arrayLength*2;
+            this.unit = this.qrLength / this.arrayLength * 2;
 
             // 开始绘制
             this.countType("array4", 4)
             this.countTian();
-            this.count7();
             this.countType("array3", 3)
+            this.count7();
             this.countType("array2", 2)
             this.count1();
             this.painEye();
+            // console.log("横竖4格坐标集合：", this.array4)
+            // console.log("横竖田坐标集合：", this.arrayTian)
+            // console.log("横竖3格坐标集合：", this.array3)
+            // console.log("正7记录坐标集合", this.arrayPositive7)
+            // console.log("反7记录坐标集合", this.arrayRever7)
+            // console.log("横竖2格坐标集合：", this.array2)
+            // console.log("单个格子坐标集合", this.array1)
         },
         // 清空原来的二维码，把内容二维码转为table格式；
         toBeTableQR() {
-            var that = this;
-            $("#qrcode").html("");
-            // 绘制二维码
-            var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: this.inputMessage,
-                width: this.qrLength,
-                height: this.qrLength,
-                colorDark: "black",
-                colorLight: "transparent",
-                correctLevel: QRCode.CorrectLevel.H
-            }, function () {
-                //  绘制结束回调函数；计算二维码的信息；
-                that.countWidth();
-            });
+            return new Promise((resolve, reject) => {
+                $("#qrcode").html("");
+                // 绘制二维码
+                var qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: this.inputMessage,
+                    width: this.qrLength,
+                    height: this.qrLength,
+                    colorDark: "black",
+                    colorLight: "transparent",
+                    correctLevel: QRCode.CorrectLevel.H
+                }, function() {});
+                resolve();
+            })
+        },
+        start() {
+            this.toBeTableQR().then(() => this.countWidth())
+            //  绘制结束回调函数；计算二维码的信息；
         },
         // 开始转为二维码的table
         toBeQR() {
