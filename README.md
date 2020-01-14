@@ -1,7 +1,7 @@
 ﻿# ART-QR-Code
 blog详细的解说地址：https://blog.csdn.net/lemisi/article/details/88831289
 
-[预览地址](http://yating.online/demo/qr/artQR.html):http://yating.online/demo/qr/artQR.html
+[预览地址](http://yating.online/demo/qr/):http://yating.online/demo/qr/
 
 如果你觉得还不错的话，给个star吧，谢谢~
 
