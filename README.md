@@ -5,26 +5,17 @@ blog详细的解说地址：https://blog.csdn.net/lemisi/article/details/8883128
 
 如果你觉得还不错的话，给个star吧，谢谢~
 
-<img src="https://img-blog.csdnimg.cn/20200114125345742.png" width="200"/>
+<img src="https://img-blog.csdnimg.cn/20200114125345742.png" width="300"/>
 
 ## 存在问题：
  - 1、内容过于复杂，可能无法识别出来；
  - 2、有的二维码，用手机可以扫描出来，但是无法图片识别
 
-
-## 前期准备
-- 定义多个数组，主要都是用来记录小黑块；
-- 准备好设计图
-  
-
-依次类推；
-
-## 1、生成二维码
+## 生成二维码
 
 > QRCode.js 是一个用于生成二维码的 JavaScript 库。主要是通过获取 DOM 的标签,再通过 HTML5 Canvas 绘制而成,不依赖任何库。
 
 [qrcode.js地址](https://github.com/davidshimjs/qrcodejs)
-
 
 基本的用法是：
 ```js
@@ -58,7 +49,7 @@ blog详细的解说地址：https://blog.csdn.net/lemisi/article/details/8883128
 > 因为最后导出的是以canvas的形式导出的二维码，很不方便我计算小黑快；
 所以我在源码上面，改成最后以table的形式导出二维码，从而更方便计算小黑块的数目
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019032622043296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
+<img src="https://img-blog.csdnimg.cn/2019032622043296.png" width="200"/>
 
  - 在源码中找到这个方法：Drawing.prototype.draw = function (oQRCode)
  - 把里面的内容删掉替换成现有的导出table的方法，代码如下：
@@ -97,15 +88,7 @@ var _htOption = this._htOption;
 ```
 
 
-### 2、计算二维码的小黑快；
-
-通过得到tr的行数，我们就可以知道这个二维码是一个n*n的正方形；
-
-然后在每个小方块的位置，记录在一个数组里。并且记录好该方块是否上色；
-
-主要是接下来给二维码绘制图案起作用；
-
-在最一开始的时候，我要先把3个码眼给保存下来，以后就不在对码眼区域的小黑块做统计了
+### 计算二维码的小黑快
 
 ```js
 //    首先把3个大框框保存下来；
@@ -114,11 +97,10 @@ var _htOption = this._htOption;
     }
 ```
 
-array[i][j][0]=1:表示第i行j列的小方块是黑色的；
+- array[i][j][0]=1:表示第i行j列的小方块是黑色的；
 
-array[i][j][1]=1：表示第i行j列的小方块待会不做记录处理；
+- array[i][j][1]=1：表示第i行j列的小方块待会不做记录处理；
 
-以此类推：
 
 ```js
 countWidth() {
@@ -153,14 +135,11 @@ countWidth() {
 ```
    
 
-### 3、随机填充小黑块；
+### 随机填充小黑块；
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326225039625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
-> 最主要的精髓就是，填充小黑块的正中心，大概1/9分布到所有小黑块上去，就可以识别了
-
-
-众所周知，只要把有颜色的图案，替换掉小黑块就可以识别出来了。
+> 最主要的精髓就是，填充小黑块的正中心，大概1/9分布到所有小黑块上去，就可以识别了。众所周知，只要把有颜色的图案，替换掉小黑块就可以识别出来了。
 
 - ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326224518425.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
@@ -168,13 +147,14 @@ countWidth() {
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019032622125084.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
-他们分别对应的小黑块是这个样子的
+他们分别对应的小黑块是这个样子的：
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326221650715.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
 > 4、所以我们就要开始随机的去计算这10种可能的图案能把所有小黑快填满的数据；
 
 每次生成的组成都是不一样的图案，给大家看一下例子；我把第一张图叫正7图案，因为看起来像7；第二张图叫反7；
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326222047545.png)
 
 ```js
@@ -252,6 +232,7 @@ count7() {
      
 
 统计田的方法：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326222331794.png)
 
 ```js
@@ -427,6 +408,7 @@ condition(num, type, i, j) {
 
      
 最后没有填满的小黑块都均以1个小黑块来记录下来：
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326222610985.png)
 
 ```js
@@ -455,7 +437,7 @@ count1() {
 ```
 
 
-### 5、开始绘制图案
+## 开始绘制图案
 
 每次计算好不同类型的图案的方式，紧接着我就会开始绘制该图案到canvas上：
 
@@ -466,6 +448,7 @@ i对应y；
 j对应x；
 
 所以渲染的时候要注意一下以免搞混杂了。
+
 ```js
 // 绘制艺术二维码
 pain(arrayName, width, height, num, type) {
@@ -523,11 +506,15 @@ imgSrc(num, type) {
     }
 },
 ```
-### 6、绘制码眼
+## 绘制码眼
 最后我们开始绘制定位的码眼：它的宽度是7个小方块；
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326223319539.png)
+
 ====》
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/201903262233314.png)
+
 ```js
 // 绘制艺术二维码
     painEye() {
@@ -550,9 +537,11 @@ imgSrc(num, type) {
 
 
 
-**拓展：
-1、因为我还会加上一个背景，但是我的背景是img标签；如果你想要div截图成img输出；**
+## 拓展
+- 因为我还会加上一个背景，但是我的背景是img标签；如果你想要div截图成img输出；
+
 可以使用html2canvas：http://html2canvas.hertzen.com/
+
 html：
 ```html
 
@@ -568,7 +557,8 @@ js：
     });
 ```
 
-解决html标签导出img不清晰的问题：
+- 解决html标签导出img不清晰的问题：
+
 ```js
 toBeCanvas() {
     var copyDom = $("#canvasQR");
