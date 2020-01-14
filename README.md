@@ -137,7 +137,7 @@ countWidth() {
 
 ### 随机填充小黑块；
 
-![在这里插入图片描述](?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190326225039625.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xlbWlzaQ==,size_16,color_FFFFFF,t_70)
 
 > 最主要的精髓就是，填充小黑块的正中心，大概1/9分布到所有小黑块上去，就可以识别了。众所周知，只要把有颜色的图案，替换掉小黑块就可以识别出来了。
 
