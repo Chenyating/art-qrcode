@@ -59,34 +59,34 @@ var qrBox = new Vue({
         // 返回图片src
         imgSrc(num, type) {
             if (num == 4 && type == "row") {
-                return "../img/row4.png";
+                return "./img/row4.png";
             }
             if (num == 4 && type == "col") {
-                return "../img/col4.png";
+                return "./img/col4.png";
             }
             if (num == 3 && type == "row") {
-                return "../img/row3.png";
+                return "./img/row3.png";
             }
             if (num == 3 && type == "col") {
-                return "../img/col3.png";
+                return "./img/col3.png";
             }
             if (num == 7 && type == "re") {
-                return "../img/re7.png";
+                return "./img/re7.png";
             }
             if (num == 7 && type == "po") {
-                return "../img/po7.png";
+                return "./img/po7.png";
             }
             if (num == 22 && type == "tian") {
-                return "../img/tian.png";
+                return "./img/tian.png";
             }
             if (num == 2 && type == "row") {
-                return "../img/row2.png";
+                return "./img/row2.png";
             }
             if (num == 2 && type == "col") {
-                return "../img/col2.png";
+                return "./img/col2.png";
             }
             if (num == 1 && type == "one") {
-                return "../img/one.png";
+                return "./img/one.png";
             }
         },
         // 绘制艺术二维码
@@ -108,7 +108,7 @@ var qrBox = new Vue({
         // 绘制艺术二维码
         painEye() {
             var img = new Image();
-            img.src = "../img/eye.png";
+            img.src = "./img/eye.png";
             //浏览器加载图片完毕后再绘制图片
             img.onload = () => {
                 this.canvasBg.drawImage(img, 0 * this.unit, 0 * this.unit, 7 * this.unit, 7 * this.unit);
