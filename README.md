@@ -1,14 +1,15 @@
 ﻿# art-qrcode
-[预览地址](http://yating.online/demo/qr/): http://yating.online/ART-QRCode/
 
-[艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
-
-![cover](readme/demo.png)
 ## 下载方式
 ```
 npm i art-qrcode
 ```
 
+[预览地址](http://yating.online/demo/qr/): http://yating.online/ART-QRCode/
+
+[艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
+
+![cover](readme/demo.png)
 ## 使用方法
 ```js
 import "artQRCode.js";
