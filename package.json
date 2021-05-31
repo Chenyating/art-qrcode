@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Chenyating/ART-QRCode/issues"
   },
-  "homepage": "https://github.com/Chenyating/ART-QRCode#readme"
+  "homepage": "https://github.com/Chenyating/ART-QRCode#readme",
+  "dependencies": {
+    "art-qrcode": "^1.0.1"
+  }
 }

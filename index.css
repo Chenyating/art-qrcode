@@ -46,7 +46,7 @@ html {
 
 #bg{
     text-align: center;
-    background: url("../img/bg.png");
+    background: url("./img/bg.png");
     background-size: 100%;
     background-repeat: no-repeat;
     width: 350px;
