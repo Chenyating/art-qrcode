@@ -1,9 +1,10 @@
 ﻿# ART-QR-Code
 [预览地址](http://yating.online/demo/qr/): http://yating.online/ART-QRCode/
-[解析原理](https://blog.csdn.net/lemisi/article/details/88831289)
+
+[艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
 ## 使用方法
 ```js
-import ".artQRCode.js";
+import "artQRCode.js";
 
 var qrBox = new Vue({
     el: "#qrBox",
@@ -42,3 +43,29 @@ var qrBox = new Vue({
 });
 
 ```
+## imginfo
+设计图片素材需循序规则设计：
+
+建议最小单元one.png尺寸为：50*50px，分辨率：300像素.
+
+以本网站为例：
+![image.png](./readme/rules.png)
+
+## 注意：
+其中：eye.png ,one.png两张图为必备图片。
+
+元素图：
+![image.png](./readme/rules1.png)
+
+生成效果图：
+![image.png](./readme/rules2.png)
+
+## 工具
+如果设计对你来说比较麻烦，欢迎使用我的小工具
+![image.png](./readme/toolcode.png)
+可以在线生成艺术二维码，或解析黑白二维码为艺术二维码。
+
+也可以自定义上传素材生成。
+![image.png](./readme/tool.gif)
+
+
