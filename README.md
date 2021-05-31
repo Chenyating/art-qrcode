@@ -3,6 +3,7 @@
 
 [艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
 
+![cover](readme/demo.png)
 ## 下载方式
 ```
 npm i art-qrcode
@@ -55,6 +56,7 @@ var qrBox = new Vue({
 建议最小单元one.png尺寸为：50*50px，分辨率：300像素.
 
 以本网站为例：
+
 ![image.png](./readme/rules.png)
 
 ## 注意：
@@ -68,10 +70,13 @@ var qrBox = new Vue({
 
 ## 工具
 如果设计对你来说比较麻烦，欢迎使用我的小工具
-![image.png](./readme/toolcode.png)
+
+![image.png](./readme/toolcode.jpg)
+
 可以在线生成艺术二维码，或解析黑白二维码为艺术二维码。
 
 也可以自定义上传素材生成。
+
 ![image.png](./readme/tool.gif)
 
 
