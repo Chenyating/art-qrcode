@@ -6,30 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>QR-艺术二维码</title>
-    <link rel="shortcut icon" href="img/index/qr.png">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <link rel="stylesheet" href="./css/qrCode.css" />
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-    <script src="./js/jquery.qr.js"></script>
-    <script src="./js/html2canvas.js"></script>
+    <script src="./js/artQRCode.js"></script>
 </head>
 
 <body>
     <div id="qrBox" v-cloak>
         <!-- 按钮 -->
-        <textarea class="input-box" v-model="inputMessage" placeholder="请输入英文或者数字，目前暂不支持中文"></textarea>
+        <textarea class="input-box" v-model="qrinfo.text" placeholder="请输入英文或者数字，目前暂不支持中文"></textarea>
         <div class="button-box">
             <div class="btn" @click="start">开始生成</div>
-            <div class="btn" @click="toBeCanvas">存储为图片</div>
         </div>
-        <!-- 原来二维码 -->
-        <div id="qrcode" v-show="false"></div>
-        <!-- 现在二维码 -->
         <div id="bg" >
-            <canvas ref="order" id="canvasQR" width="360" height="360"></canvas>
+            <canvas ref="order" id="qrcode" width="360" height="360"></canvas>
         </div>
     </div>
-    <script src="./js/qrCode.js"></script>
+    <!-- <script src="./js/artqrcode.js"></script> -->
+    <script src="./js/index.js"></script>
 </body>
 </html>

@@ -1,0 +1,19 @@
+{
+  "name": "artqrcode",
+  "version": "1.0.0",
+  "description": "qrcode change to artqrcode",
+  "main": "./js/artQRCode",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chenyating/ART-QRCode.git"
+  },
+  "author": "yatingchen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chenyating/ART-QRCode/issues"
+  },
+  "homepage": "https://github.com/Chenyating/ART-QRCode#readme"
+}

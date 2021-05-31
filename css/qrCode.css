@@ -37,7 +37,7 @@ html {
     font-size: 15px;
 }
 /* // 二维码 */
-#canvasQR{
+#qrcode{
     margin: 0 auto;
     margin-top: 80px;
     width: 200px;
