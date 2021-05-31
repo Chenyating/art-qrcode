@@ -1,5 +1,5 @@
 {
-  "name": "artqrcode",
+  "name": "art-qrcode",
   "version": "1.0.0",
   "description": "qrcode change to artqrcode",
   "main": "./js/artQRCode",
