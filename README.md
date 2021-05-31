@@ -1,4 +1,4 @@
-﻿# ART-QR-Code
+﻿# art-qrcode
 [预览地址](http://yating.online/demo/qr/): http://yating.online/ART-QRCode/
 
 [艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
