@@ -129,7 +129,8 @@ Page({
 ## 工具
 如果设计对你来说比较麻烦，欢迎使用我的小工具
 
-![image.png](./readme/toolcode.jpg)
+<img src="readme/toolcode.jpg" alt="Editor" width="200">
+
 
 可以在线生成艺术二维码，或解析黑白二维码为艺术二维码。
 
