@@ -1,6 +1,6 @@
 {
   "name": "art-qrcode",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "qrcode change to artqrcode",
   "main": "./js/artQRCode",
   "scripts": {
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Chenyating/ART-QRCode.git"
+    "url": "https://github.com/Chenyating/art-qrcode"
   },
   "author": "yatingchen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Chenyating/ART-QRCode/issues"
+    "url": "https://github.com/Chenyating/art-qrcode/issues"
   },
-  "homepage": "https://github.com/Chenyating/ART-QRCode#readme"
+  "homepage": "https://github.com/Chenyating/art-qrcode#readme"
 }

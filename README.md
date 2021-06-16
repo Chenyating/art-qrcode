@@ -1,17 +1,20 @@
 ﻿# art-qrcode
 
-## 下载方式
-```
-npm i art-qrcode
-```
-
 [预览地址](http://yating.online/art-qrcode/): http://yating.online/art-qrcode/
 
 [艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
 
-<img src="readme/demo.png" alt="Editor" width="250">
+<img src="readme/demo.gif" alt="Editor" width="250">
 
-## 使用方法
+## 艺术二维码插件：普通版
+
+git地址：https://github.com/Chenyating/wx-art-qrcode
+### 下载方式
+```
+npm i art-qrcode
+```
+
+### 使用方法
 ```js
 import "artQRCode.js";
 
@@ -42,7 +45,7 @@ var qrBox = new Vue({
     },
     methods: {
         start() {
-           new getqrcode(this.qrinfo,this.imginfo).then(()=>{
+           new artqrcode(this.qrinfo,this.imginfo).then(()=>{
                console.log("成功")
            }).catch(()=>{
                console.log("失败")
@@ -52,6 +55,56 @@ var qrBox = new Vue({
 });
 
 ```
+
+
+## 艺术二维码插件：小程序版
+git地址：https://github.com/Chenyating/art-qrcode
+### 下载方式
+```
+npm i wx-art-qrcode
+```
+
+### 使用方法
+
+```html
+<canvas class="qrcode" style="width:200px;height:200px" canvas-id="qrcode"></canvas>
+```
+
+```js
+// index.js
+// 获取应用实例
+import artqrcode from '../../utils/wx-art-qrcode.js';
+Page({
+  data: {
+    imginfo: {
+      eye: "../../img/eye.png", //必填
+      one: "../../img/one.png", //必填
+      tian: "../../img/tian.png", //可选
+      col2: "../../img/col2.png", //可选
+      col3: "../../img/col3.png", //可选
+      col4: "../../img/col4.png", //可选
+      row2: "../../img/row2.png", //可选
+      row3: "../../img/row3.png", //可选
+      row4: "../../img/row4.png", //可选
+      re7: "../../img/re7.png", //可选
+      po7: "../../img/po7.png", //可选
+    },
+    qrinfo: { //必填
+      canvasid: 'qrcode',
+      size: '200',
+      text: '1',
+    }
+  },
+  onLoad:function() {
+    artqrcode(this.data.qrinfo, this.data.imginfo).then(() => {
+      console.log("成功")
+    }).catch(() => {
+      console.log("失败")
+    })
+  }
+})
+```
+
 ## 设计指引
 设计图片素材需循序规则设计：
 
@@ -85,3 +138,5 @@ var qrBox = new Vue({
 <img src="readme/tool.gif" alt="Editor" width="250">
 
 
+## LICENSE
+[MIT](https://github.com/Chenyating/art-qrcode/blob/master/LICENSE)

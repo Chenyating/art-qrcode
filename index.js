@@ -26,7 +26,7 @@ var qrBox = new Vue({
     },
     methods: {
         start() {
-           new getqrcode(this.qrinfo,this.imginfo).then(()=>{
+           new artqrcode(this.qrinfo,this.imginfo).then(()=>{
                console.log("成功")
            }).catch(()=>{
                console.log("失败")
