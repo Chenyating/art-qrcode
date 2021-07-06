@@ -8,7 +8,8 @@
 
 ## 艺术二维码插件：普通版
 
-git地址：https://github.com/Chenyating/wx-art-qrcode
+git地址：https://github.com/Chenyating/art-qrcode
+
 ### 下载方式
 ```
 npm i art-qrcode
@@ -58,7 +59,8 @@ var qrBox = new Vue({
 
 
 ## 艺术二维码插件：小程序版
-git地址：https://github.com/Chenyating/art-qrcode
+git地址：https://github.com/Chenyating/wx-art-qrcode
+
 ### 下载方式
 ```
 npm i wx-art-qrcode
