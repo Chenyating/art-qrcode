@@ -1,7 +1,6 @@
 ﻿# art-qrcode
 
-[预览地址](http://yating.online/art-qrcode/): http://yating.online/art-qrcode/
-
+[预览地址](https://chenyating.github.io/art-qrcode/): https://chenyating.github.io/art-qrcode/
 [艺术二维码生成原理](https://blog.csdn.net/lemisi/article/details/88831289)https://blog.csdn.net/lemisi/article/details/88831289
 
 <img src="readme/demo.gif" alt="Editor" width="250">
